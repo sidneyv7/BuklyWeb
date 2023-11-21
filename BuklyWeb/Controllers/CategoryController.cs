@@ -73,5 +73,35 @@ namespace BuklyWeb.Controllers
       }
       return View();
     }
+
+    public ActionResult Delete(int? id)
+    {
+      if (id == null || id == 0)
+      {
+        return RedirectToAction("Error", "Home");
+      }
+
+      Category? obj = _context.Categories.FirstOrDefault(s => s.Id == id);
+      if (obj == null)
+      {
+        return RedirectToAction("Error", "Home");
+      }
+
+      return View(obj);
+    }
+
+    [HttpPost]
+    public IActionResult Delete(Category obj)
+    {
+      if (ModelState.IsValid)
+      {
+        _context.Categories.Remove(obj);
+        _context.SaveChanges();
+        TempData["success"] = "Category deleted successfully";
+
+        return RedirectToAction("Index");
+      }
+      return View();
+    }
   }
 }
