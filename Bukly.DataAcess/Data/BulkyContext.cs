@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Bukly7.Bukly.Models;
 
-namespace BuklyWeb.Models;
+namespace Bukly7.Bukly.DataAcess.Data;
 
 public partial class BulkyContext : DbContext
 {
@@ -15,10 +16,10 @@ public partial class BulkyContext : DbContext
     {
     }
 
-    public DbSet<Category> Categories { get; set; }
+  public DbSet<Category> Categories { get; set; }
 
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreatingPartial(modelBuilder);
     }

@@ -1,5 +1,6 @@
 using BuklyWeb.Models;
 using Microsoft.EntityFrameworkCore;
+using Bukly7.Bukly.DataAcess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BulkyContext>(options =>

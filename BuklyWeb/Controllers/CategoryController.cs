@@ -1,6 +1,8 @@
-﻿using BuklyWeb.Models;
+﻿using Bukly7.Bukly.DataAcess.Data;
+using BuklyWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Bukly7.Bukly.Models;
 
 namespace BuklyWeb.Controllers
 {
@@ -8,12 +10,12 @@ namespace BuklyWeb.Controllers
   {
     private readonly BulkyContext _context;
 
-        public CategoryController(BulkyContext context)
-        {
-      _context = context;            
+    public CategoryController(BulkyContext context)
+    {
+      _context = context;
 
-        }
-        public IActionResult Index()
+    }
+    public IActionResult Index()
     {
 
       return View(_context.Categories.ToList());
