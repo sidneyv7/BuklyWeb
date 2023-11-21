@@ -20,7 +20,28 @@ namespace BuklyWeb.Controllers
 
     }
 
+    public IActionResult Create()
+    {
+      return View();
+    }
 
+    [HttpPost]
+    public IActionResult Create(Category obj)
+    {
+      if (obj.Name == obj.DisplayOrder.ToString())
+      {
+        ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
+      }
+      if (ModelState.IsValid)
+      {
+        _context.Categories.Add(obj);
+        _context.SaveChanges();
+        TempData["success"] = "Category Created successfully";
+
+        return RedirectToAction("Index");
+      }
+      return View();
+    }
 
   }
 }
