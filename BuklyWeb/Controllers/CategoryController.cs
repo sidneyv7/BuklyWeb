@@ -43,5 +43,35 @@ namespace BuklyWeb.Controllers
       return View();
     }
 
+    public ActionResult Edit(int? id)
+    {
+      if (id == null || id == 0)
+      {
+        return RedirectToAction("Error", "Home");
+      }
+
+      Category? obj = _context.Categories.FirstOrDefault(s => s.Id == id);
+      if (obj == null)
+      {
+        return RedirectToAction("Error", "Home");
+      }
+
+      return View(obj);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(Category obj)
+    {
+      if (ModelState.IsValid)
+      {
+        _context.Categories.Update(obj);
+        _context.SaveChanges();
+        TempData["success"] = "Category Updated successfully";
+
+
+        return RedirectToAction("Index");
+      }
+      return View();
+    }
   }
 }
