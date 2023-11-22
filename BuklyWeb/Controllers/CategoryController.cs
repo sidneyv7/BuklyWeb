@@ -3,30 +3,32 @@ using BuklyWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Bukly7.Bukly.Models;
+using Bukly.DataAcess.Repository.IRepository;
 
 namespace BuklyWeb.Controllers
 {
   public class CategoryController : Controller
   {
-    private readonly BulkyContext _context;
+    private readonly ICategoryRepository _categoryRepo;
 
-    public CategoryController(BulkyContext context)
+        public CategoryController(ICategoryRepository categoryRepository)
+        {
+      _categoryRepo = categoryRepository;
+            
+        }
+
+
+        public IActionResult Index()
     {
-      _context = context;
-
-    }
-    public IActionResult Index()
-    {
-
-      return View(_context.Categories.ToList());
-
+      
+      List<Category> objCategoryList = _categoryRepo .GetAll().ToList();
+      return View(objCategoryList);
     }
 
     public IActionResult Create()
     {
       return View();
     }
-
     [HttpPost]
     public IActionResult Create(Category obj)
     {
@@ -34,76 +36,75 @@ namespace BuklyWeb.Controllers
       {
         ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
       }
+
       if (ModelState.IsValid)
       {
-        _context.Categories.Add(obj);
-        _context.SaveChanges();
-        TempData["success"] = "Category Created successfully";
-
+        _categoryRepo.Add(obj);
+        _categoryRepo.Save();
+        TempData["success"] = "Category created successfully";
         return RedirectToAction("Index");
       }
       return View();
+
     }
 
-    public ActionResult Edit(int? id)
+    public IActionResult Edit(int? id)
     {
       if (id == null || id == 0)
       {
-        return RedirectToAction("Error", "Home");
+        return NotFound();
       }
+      Category? categoryFromDb = _categoryRepo.Get(u => u.Id == id);
+      //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u=>u.Id==id);
+      //Category? categoryFromDb2 = _db.Categories.Where(u=>u.Id==id).FirstOrDefault();
 
-      Category? obj = _context.Categories.FirstOrDefault(s => s.Id == id);
-      if (obj == null)
+      if (categoryFromDb == null)
       {
-        return RedirectToAction("Error", "Home");
+        return NotFound();
       }
-
-      return View(obj);
+      return View(categoryFromDb);
     }
-
     [HttpPost]
     public IActionResult Edit(Category obj)
     {
       if (ModelState.IsValid)
       {
-        _context.Categories.Update(obj);
-        _context.SaveChanges();
-        TempData["success"] = "Category Updated successfully";
-
-
+        _categoryRepo.Update(obj);
+        _categoryRepo.Save();
+        TempData["success"] = "Category updated successfully";
         return RedirectToAction("Index");
       }
       return View();
+
     }
 
-    public ActionResult Delete(int? id)
+    public IActionResult Delete(int? id)
     {
       if (id == null || id == 0)
       {
-        return RedirectToAction("Error", "Home");
+        return NotFound();
       }
+      Category? categoryFromDb = _categoryRepo.Get(u => u.Id == id);
 
-      Category? obj = _context.Categories.FirstOrDefault(s => s.Id == id);
+      if (categoryFromDb == null)
+      {
+        return NotFound();
+      }
+      return View(categoryFromDb);
+    }
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeletePOST(int? id)
+    {
+      Category? obj = _categoryRepo.Get(u => u.Id == id);
       if (obj == null)
       {
-        return RedirectToAction("Error", "Home");
+        return NotFound();
       }
-
-      return View(obj);
+      _categoryRepo.Delete(obj);
+      _categoryRepo.Save();
+      TempData["success"] = "Category deleted successfully";
+      return RedirectToAction("Index");
     }
 
-    [HttpPost]
-    public IActionResult Delete(Category obj)
-    {
-      if (ModelState.IsValid)
-      {
-        _context.Categories.Remove(obj);
-        _context.SaveChanges();
-        TempData["success"] = "Category deleted successfully";
-
-        return RedirectToAction("Index");
-      }
-      return View();
-    }
   }
 }
