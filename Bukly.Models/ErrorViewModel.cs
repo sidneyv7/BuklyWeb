@@ -1,4 +1,4 @@
-namespace BuklyWeb.Models
+namespace Bukly7.Models
 {
   public class ErrorViewModel
   {

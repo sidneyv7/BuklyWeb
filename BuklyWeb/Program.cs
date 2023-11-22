@@ -1,4 +1,3 @@
-using BuklyWeb.Models;
 using Microsoft.EntityFrameworkCore;
 using Bukly7.Bukly.DataAcess.Data;
 using Bukly.DataAcess.Repository.IRepository;
@@ -31,6 +30,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
