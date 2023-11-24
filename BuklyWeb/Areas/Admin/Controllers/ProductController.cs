@@ -27,6 +27,54 @@ namespace BuklyWeb.Areas.Admin.Controllers
 
 
 
+    public IActionResult Upsert(int? id)
+    {
+      ProductVM productVM = new()
+      {
+        CategoryList = _unitofwork.category.GetAll().Select(u => new SelectListItem
+        {
+          Text = u.Name,
+          Value = u.Id.ToString()
+        }),
+        Product = new Product()
+      };
+      if (id == null || id == 0)
+      {
+        //create
+        return View(productVM);
+      }
+      else
+      {
+        //update
+        productVM.Product = _unitofwork.product.Get(u => u.Id == id);
+        return View(productVM);
+      }
+
+    }
+
+    [HttpPost]
+    public IActionResult Upsert(ProductVM productVM, IFormFile? file)
+    {
+      if (ModelState.IsValid)
+      {
+        _unitofwork.product.Add(productVM.Product);
+        _unitofwork.save();
+        TempData["success"] = "Product created successfully";
+        return RedirectToAction("Index");
+      }
+      else
+      {
+        productVM.CategoryList = _unitofwork.category.GetAll().Select(u => new SelectListItem
+        {
+          Text = u.Name,
+          Value = u.Id.ToString()
+        });
+        return View(productVM);
+      }
+    }
+
+
+
     public IActionResult Create()
     {
       ProductVM productVM = new()
@@ -43,7 +91,7 @@ namespace BuklyWeb.Areas.Admin.Controllers
       return View(productVM);
     }
     [HttpPost]
-    public IActionResult Create(ProductVM productVM)
+    public IActionResult Create(ProductVM productVM)  
     {
   
 
