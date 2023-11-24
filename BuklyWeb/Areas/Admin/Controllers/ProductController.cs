@@ -43,18 +43,26 @@ namespace BuklyWeb.Areas.Admin.Controllers
       return View(productVM);
     }
     [HttpPost]
-    public IActionResult Create(ProductVM obj)
+    public IActionResult Create(ProductVM productVM)
     {
   
 
       if (ModelState.IsValid)
       {
-        _unitofwork.product.Add(obj.Product);
+        _unitofwork.product.Add(productVM.Product);
         _unitofwork.save();
         TempData["success"] = "Category created successfully";
         return RedirectToAction("Index");
       }
-      return View();
+      else
+      {
+        productVM.CategoryList = _unitofwork.category.GetAll().Select(u => new SelectListItem
+        {
+          Text = u.Name,
+          Value = u.Id.ToString()
+        });
+        return View(productVM);
+      }
 
     }
     public IActionResult Edit(int? id)
