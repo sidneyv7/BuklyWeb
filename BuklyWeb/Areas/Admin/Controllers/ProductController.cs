@@ -1,6 +1,7 @@
 ﻿using Bukly.DataAcess.Repository;
 using Bukly.DataAcess.Repository.IRepository;
 using Bukly7.Bukly.Models;
+using Bukly7.Bukly.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -28,24 +29,27 @@ namespace BuklyWeb.Areas.Admin.Controllers
 
     public IActionResult Create()
     {
-      IEnumerable<SelectListItem> CategoryList = _unitofwork.category
+      ProductVM productVM = new()
+      {
+        CategoryList = _unitofwork.category
    .GetAll().Select(u => new SelectListItem
    {
      Text = u.Name,
      Value = u.Id.ToString()
-   });
+   }),
+        Product = new Product()
+      };
 
-      ViewBag.CategoryList = CategoryList;
-      return View();
+      return View(productVM);
     }
     [HttpPost]
-    public IActionResult Create(Product obj)
+    public IActionResult Create(ProductVM obj)
     {
   
 
       if (ModelState.IsValid)
       {
-        _unitofwork.product.Add(obj);
+        _unitofwork.product.Add(obj.Product);
         _unitofwork.save();
         TempData["success"] = "Category created successfully";
         return RedirectToAction("Index");
