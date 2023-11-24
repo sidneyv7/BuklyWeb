@@ -2,6 +2,7 @@
 using Bukly.DataAcess.Repository.IRepository;
 using Bukly7.Bukly.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BuklyWeb.Areas.Admin.Controllers
 {
@@ -27,6 +28,14 @@ namespace BuklyWeb.Areas.Admin.Controllers
 
     public IActionResult Create()
     {
+      IEnumerable<SelectListItem> CategoryList = _unitofwork.category
+   .GetAll().Select(u => new SelectListItem
+   {
+     Text = u.Name,
+     Value = u.Id.ToString()
+   });
+
+      ViewBag.CategoryList = CategoryList;
       return View();
     }
     [HttpPost]
