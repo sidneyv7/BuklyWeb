@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Bukly7.Bukly.Models;
-using Bukly.Models;
 
 namespace Bukly7.Bukly.DataAcess.Data;
 
