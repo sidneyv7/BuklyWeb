@@ -7,11 +7,11 @@ namespace BuklyWeb.Areas.Admin.Controllers
   [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepo;
+        private readonly IUnitofWork _unitofwork;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(IUnitofWork unitofWork)
         {
-            _categoryRepo = categoryRepository;
+      _unitofwork = unitofWork;
 
         }
 
@@ -19,7 +19,7 @@ namespace BuklyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
 
-            List<Category> objCategoryList = _categoryRepo.GetAll().ToList();
+            List<Category> objCategoryList = _unitofwork.category.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -37,8 +37,8 @@ namespace BuklyWeb.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                _categoryRepo.Add(obj);
-                _categoryRepo.Save();
+        _unitofwork.category.Add(obj);
+        _unitofwork.save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
@@ -52,7 +52,7 @@ namespace BuklyWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _categoryRepo.Get(u => u.Id == id);
+            Category? categoryFromDb = _unitofwork.category.Get(u => u.Id == id);
             //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u=>u.Id==id);
             //Category? categoryFromDb2 = _db.Categories.Where(u=>u.Id==id).FirstOrDefault();
 
@@ -67,8 +67,8 @@ namespace BuklyWeb.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _categoryRepo.Update(obj);
-                _categoryRepo.Save();
+        _unitofwork.category.Update(obj);
+               _unitofwork.save();
                 TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
@@ -82,7 +82,7 @@ namespace BuklyWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _categoryRepo.Get(u => u.Id == id);
+            Category? categoryFromDb = _unitofwork.category.Get(u => u.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -93,13 +93,13 @@ namespace BuklyWeb.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Category? obj = _categoryRepo.Get(u => u.Id == id);
+            Category? obj = _unitofwork.category.Get(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _categoryRepo.Delete(obj);
-            _categoryRepo.Save();
+      _unitofwork.category.Delete(obj);
+      _unitofwork.save();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }

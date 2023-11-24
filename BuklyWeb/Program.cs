@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Bukly7.Bukly.DataAcess.Data;
 using Bukly.DataAcess.Repository.IRepository;
+using Bukly.DataAcess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BulkyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
