@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bukly7.Bukly.Models;
 
-public partial class Category
+public  class Category
 {
   [Key]
   public int Id { get; set; }
