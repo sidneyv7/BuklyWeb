@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bukly.Models
+namespace Bukly7.Bukly.Models
 {
   public class Product
   {

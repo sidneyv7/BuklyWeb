@@ -28,5 +28,15 @@ namespace Bukly.DataAcess.Repository
         {
             _db.Categories.Update(obj);
         }
+
+    void ICategoryRepository.Save()
+    {
+      throw new NotImplementedException();
     }
+
+    void ICategoryRepository.Update(Category obj)
+    {
+      throw new NotImplementedException();
+    }
+  }
 }
