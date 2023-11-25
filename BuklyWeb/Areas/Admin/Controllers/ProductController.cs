@@ -74,7 +74,14 @@ namespace BuklyWeb.Areas.Admin.Controllers
           productVM.Product.ImageUrl = @"\images\product\" + fileName;
 
         }
-        _unitofwork.product.Add(productVM.Product);
+        if (productVM.Product.Id == 0)
+        {
+          _unitofwork.product.Add(productVM.Product);
+        }
+        else
+        {
+          _unitofwork.product.Update(productVM.Product);
+        }
         _unitofwork.save();
         TempData["success"] = "Product created successfully";
         return RedirectToAction("Index");
