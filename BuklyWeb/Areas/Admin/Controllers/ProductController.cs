@@ -61,6 +61,7 @@ namespace BuklyWeb.Areas.Admin.Controllers
       if (ModelState.IsValid)
       {
         string wwwRootPath = _webHostEnvironment.WebRootPath;
+
         if (file != null)
         {
           string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
