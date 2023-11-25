@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\Images\Products\" />
     <Folder Include="wwwroot\lib\Bootwatch\" />
   </ItemGroup>
 
@@ -35,7 +35,4 @@
     <ProjectReference Include="..\Bukly.Models\Bukly.Models.csproj" />
     <ProjectReference Include="..\Bukly.Utility\Bukly.Utility.csproj" />
   </ItemGroup>
-	<ItemGroup>
-		<Folder Include="Controllers\" />
-	</ItemGroup>
 </Project>
