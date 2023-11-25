@@ -1,3 +1,6 @@
+using Bukly.DataAcess.Repository;
+using Bukly.DataAcess.Repository.IRepository;
+using Bukly7.Bukly.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuklyWeb.Areas.Customer.Controllers
@@ -8,17 +11,24 @@ namespace BuklyWeb.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+    private readonly IUnitofWork _unitOfWork;
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+    public HomeController(ILogger<HomeController> logger, IUnitofWork unitOfWork)
+    {
+      _logger = logger;
+      _unitOfWork = unitOfWork;
 
-        public IActionResult Privacy()
+    }
+
+    public IActionResult Index()
+        {
+
+      IEnumerable<Product> productList = _unitOfWork.product.GetAll(includeProperties: "Category");
+      return View(productList);
+
+    }
+
+    public IActionResult Privacy()
         {
             return View();
         }
