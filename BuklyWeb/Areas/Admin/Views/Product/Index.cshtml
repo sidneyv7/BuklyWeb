@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <table class="table table-bordered table-striped">
+    <table id="products" class="table">
       <thead>
         <tr>
           <th>Title</th>
@@ -67,3 +67,15 @@
   </div>
 </div>
 
+@section Scripts {
+  <script>
+
+    $(document).ready(function () {
+      $('#products').DataTable(
+    
+      
+      );
+    });
+  </script>
+
+          }

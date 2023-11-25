@@ -29,6 +29,15 @@ namespace BuklyWeb.Areas.Admin.Controllers
       return View(objProductList);
     }
 
+    #region API CALLS
+
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+      List<Product> objProductList = _unitofwork.product.GetAll(includeProperties: "Category").ToList();
+      return Json(new { data = objProductList });
+    }
+    #endregion
 
 
     public IActionResult Upsert(int? id)
@@ -197,3 +206,4 @@ namespace BuklyWeb.Areas.Admin.Controllers
     }
   }
 }
+             
