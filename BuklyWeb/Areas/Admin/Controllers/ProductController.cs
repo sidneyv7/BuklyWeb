@@ -24,7 +24,8 @@ namespace BuklyWeb.Areas.Admin.Controllers
         }
     public IActionResult Index()
     {
-      List<Product> objProductList = _unitofwork.product.GetAll().ToList();
+      List<Product> objProductList = _unitofwork.product.GetAll(includeProperties: "Category").ToList();
+
       return View(objProductList);
     }
 

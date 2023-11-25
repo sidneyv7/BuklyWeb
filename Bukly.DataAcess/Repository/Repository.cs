@@ -19,12 +19,14 @@ namespace Bukly.DataAcess.Repository
         {
             _db = db;
             dbSet = _db.Set<T>();
-            //_db.Categories == dbSet
+      _db.Products.Include(u => u.Category).Include(u => u.CategoryId);
 
-        }
+      //_db.Categories == dbSet
+
+    }
 
 
-        public void Add(T entity)
+    public void Add(T entity)
         {
             dbSet.Add(entity);
         }
@@ -51,5 +53,34 @@ namespace Bukly.DataAcess.Repository
             IQueryable<T> query = dbSet;
             return query.ToList();
         }
+
+    T IRepository<T>.Get(Expression<Func<T, bool>> filter, string? includeProperties)
+    {
+      IQueryable<T> query = dbSet;
+      query = query.Where(filter);
+      if (!string.IsNullOrEmpty(includeProperties))
+      {
+        foreach (var includeProp in includeProperties
+            .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+          query = query.Include(includeProp);
+        }
+      }
+      return query.FirstOrDefault();
     }
+
+    IEnumerable<T> IRepository<T>.GetAll(string? includeProperties)
+    {
+      IQueryable<T> query = dbSet;
+      if (!string.IsNullOrEmpty(includeProperties))
+      {
+        foreach (var includeProp in includeProperties
+            .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+          query = query.Include(includeProp);
+        }
+      }
+      return query.ToList();
+    }
+  }
 }
