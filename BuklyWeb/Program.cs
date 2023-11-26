@@ -3,18 +3,23 @@ using Bukly7.Bukly.DataAcess.Data;
 using Bukly.DataAcess.Repository.IRepository;
 using Bukly.DataAcess.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Bukly7.Bukly.Utility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BulkyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<BulkyContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<BulkyContext>();
+
+
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
