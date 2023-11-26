@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Bukly7.Bukly.DataAcess.Data;
 
-public class BulkyContext : IdentityDbContext<IdentityUser>
+public partial class BulkyContext : IdentityDbContext
 
 {
-    public BulkyContext()
+  public BulkyContext()
     {
     }
 
@@ -23,11 +23,18 @@ public class BulkyContext : IdentityDbContext<IdentityUser>
   public DbSet<Product> Products { get; set; }
 
 
-    protected override void OnModelCreating(ModelBuilder builder)
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
+
+    base.OnModelCreating(modelBuilder);
+
+    modelBuilder.Entity<Category>().HasData(
+            new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
+            new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
+            new Category { Id = 3, Name = "History", DisplayOrder = 3 }
+            );
+    OnModelCreatingPartial(modelBuilder);
     }
+
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
