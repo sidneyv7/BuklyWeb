@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Bukly7.Bukly.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Bukly.Models;
+using Bukly7.Bukly.Models;
 
 namespace Bukly7.Bukly.DataAcess.Data;
 
-public partial class BulkyContext : IdentityDbContext<IdentityUser>
+public  class BulkyContext : IdentityDbContext<IdentityUser>
 
 {
   public BulkyContext()
@@ -122,8 +122,6 @@ public partial class BulkyContext : IdentityDbContext<IdentityUser>
                 ImageUrl = ""
             }
             );
-        OnModelCreatingPartial(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
