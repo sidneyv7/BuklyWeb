@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Bukly7.Bukly.DataAcess.Data;
 
-public partial class BulkyContext : IdentityDbContext<IdentityUser>
+public partial class BulkyContext : IdentityDbContext
 
 {
   public BulkyContext()
