@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BulkyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IUnitofWork, UnitofWork>();
+ builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
