@@ -2,12 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using Bukly7.Bukly.DataAcess.Data;
 using Bukly.DataAcess.Repository.IRepository;
 using Bukly.DataAcess.Repository;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BulkyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
- builder.Services.AddScoped<IUnitofWork, UnitofWork>();
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<BulkyContext>();
+
+builder.Services.AddRazorPages();
+builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,7 +31,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
