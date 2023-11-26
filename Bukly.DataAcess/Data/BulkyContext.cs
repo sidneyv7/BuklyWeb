@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Bukly7.Bukly.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bukly7.Bukly.DataAcess.Data;
 
-public partial class BulkyContext : DbContext
+public partial class BulkyContext : IdentityDbContext<IdentityUser>
+
 {
-    public BulkyContext()
+  public BulkyContext()
     {
     }
 
@@ -22,6 +25,9 @@ public partial class BulkyContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+    base.OnModelCreating(modelBuilder);
+
     modelBuilder.Entity<Category>().HasData(
             new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
             new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
